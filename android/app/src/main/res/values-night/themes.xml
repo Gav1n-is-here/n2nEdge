@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.TokyoN2n" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#A0D5B5</item>
+        <item name="colorOnPrimary">#083923</item>
+        <item name="colorPrimaryContainer">#225239</item>
+        <item name="colorOnPrimaryContainer">#DCEEE1</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+</resources>

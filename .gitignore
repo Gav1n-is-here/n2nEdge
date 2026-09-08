@@ -1,0 +1,25 @@
+.gradle/
+.cxx/
+build/
+verification/
+evidence/
+__pycache__/
+*.py[cod]
+*.log
+local.properties
+win/toolchains/
+
+# Local credentials, saved profiles and packet captures.
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+profile.xml
+*.pcap
+*.pcapng
+/win/server/remote.py
+/win/server/tokyo_known_hosts
+
+# Keep the current Android build; older local packages stay on disk.
+/android/dist/n2n-edge-0.3.0-*.apk

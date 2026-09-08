@@ -1,0 +1,20 @@
+[Unit]
+Description=n2n 3.0 supernode
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=n2n
+Group=n2n
+ExecStart=/opt/n2n/bin/supernode /etc/n2n/supernode.conf
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

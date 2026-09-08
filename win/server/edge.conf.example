@@ -1,0 +1,7 @@
+# n2n 3.0 desktop/Linux edge example. Replace the key before use.
+-l=supernode.example.com:7777
+-c=example-lan
+-k=REPLACE_WITH_YOUR_SHARED_KEY
+-a=10.77.0.10/24
+-A3
+-f
