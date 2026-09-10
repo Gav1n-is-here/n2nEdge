@@ -1,6 +1,9 @@
 # n2nEdge
+本项目用于gav1n、star master、by、jc、mayhome、~~鲤鱼~~ ~~李煜~~ ~~礼遇~~ 璃雩√ 总之你们知道我说的是谁的那个名字很难打的群友联机玩文明6或其它什么游戏
 
-应用名：**n2n edge**。Android 与 Windows 使用统一图标和 Material 风格，首次启动不预填节点、社区、密钥或虚拟 IP。
+
+项目为n2n的edge节点应用需要服务器起n2n大版本3.0+的supernode
+
 
 项目按 Android 和 Windows 分为两个平台目录，各自包含源码、依赖源码、构建脚本和当前可下载产物。
 
