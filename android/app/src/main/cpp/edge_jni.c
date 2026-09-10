@@ -379,6 +379,12 @@ int GetEdgeCmd(JNIEnv *env, jobject jcmd, n2n_edge_cmd_t *cmd) {
         __android_log_print(ANDROID_LOG_DEBUG, "edge_jni", "localPort = %d", cmd->local_port);
 #endif /* #ifndef NDEBUG */
     }
+    // forceRelay (n2n v3 supernode-only UDP mode)
+    {
+        jfieldID field = (*env)->GetFieldID(env, cls, "forceRelay", "Z");
+        JNI_CHECKNULL(field);
+        cmd->force_relay = (*env)->GetBooleanField(env, jcmd, field) ? 1 : 0;
+    }
     // allowRouting
     {
         jboolean jbAllowRouting = (*env)->GetBooleanField(env, jcmd, (*env)->GetFieldID(env, cls,

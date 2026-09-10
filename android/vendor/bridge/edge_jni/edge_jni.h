@@ -43,6 +43,7 @@ typedef struct n2n_edge_cmd_st
     char* logpath;
     char* devDesc;
     int header_encryption;
+    int force_relay;
 } n2n_edge_cmd_t;
 
 enum

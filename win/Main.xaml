@@ -18,11 +18,12 @@
 <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="20"/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="虚拟 IPv4" Style="{StaticResource label}"/><TextBox x:Name="Ip"/></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="子网掩码" Style="{StaticResource label}"/><TextBox x:Name="Mask"/></StackPanel></Grid>
 <TextBlock Text="TAP 虚拟网卡" Style="{StaticResource label}"/><ComboBox x:Name="Adapter" DisplayMemberPath="Name"/>
 <WrapPanel Margin="0,6,0,0"><Button x:Name="Refresh" Content="刷新网卡"/><Button x:Name="Driver" Content="安装 TAP 驱动"/></WrapPanel>
+<TextBlock Text="连接模式" Style="{StaticResource label}"/><ComboBox x:Name="ConnectionMode"/>
+<TextBlock Text="P2P 优先：直连失败时中转；强制中转：禁用设备直连。切换前请先断开。" Foreground="#64776B" FontSize="12" Margin="0,9,0,0" TextWrapping="Wrap"/>
 <Expander Header="高级设置" Margin="0,16,0,0"><StackPanel>
 <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="20"/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="加密算法" Style="{StaticResource label}"/><ComboBox x:Name="Cipher"/></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="MTU" Style="{StaticResource label}"/><TextBox x:Name="Mtu"/></StackPanel></Grid>
 <TextBlock Text="MAC 地址（留空使用所选网卡地址）" Style="{StaticResource label}"/><TextBox x:Name="Mac"/>
 <CheckBox x:Name="Header" Content="启用头部加密（节点须预配置社区）" Margin="0,15,0,8"/>
-<CheckBox x:Name="Relay" Content="强制经节点中转（关闭时优先尝试设备直连）" Margin="0,8"/>
 <CheckBox x:Name="Multicast" Content="接收子网组播（用于部分局域网发现功能）" Margin="0,8"/>
 </StackPanel></Expander>
 </StackPanel></Border>

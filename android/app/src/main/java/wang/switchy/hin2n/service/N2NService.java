@@ -78,7 +78,7 @@ public class N2NService extends VpnService {
             if(closing || !active || edge==null) return;
             switch(edge.runningStatus) {
                 case CONNECTED:
-                    status="已连接节点"; detail=profile.ip+" · "+profile.community; break;
+                    status="已连接节点"; detail=profile.ip+" · "+profile.community+" · 模式："+profile.connectionModeLabel(); break;
                 case CONNECTING:
                     status="正在连接"; detail="等待节点响应 · "+profile.server; break;
                 case SUPERNODE_DISCONNECT:

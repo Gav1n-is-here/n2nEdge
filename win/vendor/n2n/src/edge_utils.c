@@ -2080,6 +2080,12 @@ static int find_peer_destination (n2n_edge_t * eee,
     int retval = 0;
     time_t now = time(NULL);
 
+    /* Enforce relay even if a peer address was learned previously. */
+    if(!eee->conf.allow_p2p) {
+        memcpy(destination, &(eee->curr_sn->sock), sizeof(n2n_sock_t));
+        return 0;
+    }
+
     if(is_multi_broadcast(mac_address)) {
         traceEvent(TRACE_DEBUG, "multicast or broadcast destination peer, using supernode");
         memcpy(destination, &(eee->curr_sn->sock), sizeof(struct sockaddr_in));
@@ -2154,7 +2160,7 @@ static int send_packet (n2n_edge_t * eee,
         ++(eee->stats.tx_sup_broadcast);
 
         // if no supernode around, foward the broadcast to all known peers
-        if(eee->sn_wait) {
+        if(eee->sn_wait && eee->conf.allow_p2p) {
             HASH_ITER(hh, eee->known_peers, peer, tmp_peer)
                 /* s = */ sendto_sock(eee, pktbuf, pktlen, &peer->sock);
             return 0;
@@ -2475,6 +2481,10 @@ void process_udp (n2n_edge_t *eee, const struct sockaddr_in *sender_sock, const 
 
     // check if packet is from supernode and find the corresponding supernode in list
     from_supernode = cmn.flags & N2N_FLAGS_FROM_SUPERNODE;
+    if(!eee->conf.allow_p2p && !from_supernode) {
+        traceEvent(TRACE_DEBUG, "dropped direct peer packet as P2P is disabled");
+        return;
+    }
     if(from_supernode) {
         skip_add = SN_ADD_SKIP;
         sn = add_sn_to_list_by_mac_or_sock(&(eee->conf.supernodes), &sender, null_mac, &skip_add);

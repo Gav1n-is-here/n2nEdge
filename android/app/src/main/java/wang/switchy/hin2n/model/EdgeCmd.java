@@ -29,6 +29,7 @@ public class EdgeCmd {
     public String logPath;
     public String encryptionMode;
     public boolean headerEnc;
+    public boolean forceRelay;
 
     public EdgeCmd() {}
 }

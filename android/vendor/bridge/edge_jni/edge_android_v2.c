@@ -724,6 +724,9 @@ int start_edge_v3(n2n_edge_status_t *status) {
     conf.allow_routing = cmd->allow_routing == 0 ? 0 : 1;
     conf.header_encryption = cmd->header_encryption == 0 ? HEADER_ENCRYPTION_NONE : HEADER_ENCRYPTION_ENABLED;
 
+    conf.allow_p2p = cmd->force_relay ? 0 : 1;
+    traceEvent(TRACE_NORMAL, "connection mode: %s", cmd->force_relay ? "forced supernode relay (UDP)" : "P2P preferred");
+
     if(0 == strcmp("static", ip_mode))
         conf.tuntap_ip_mode = TUNTAP_IP_MODE_STATIC;
     else if(0 == strcmp("dhcp", ip_mode))

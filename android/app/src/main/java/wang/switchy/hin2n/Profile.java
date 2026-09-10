@@ -19,7 +19,8 @@ public class Profile {
     public String server="", community="", key="", ip="",
         mask="", mac="", cipher="AES-CBC";
     public int mtu=1400;
-    public boolean header=false;
+    public boolean header=false, relay=false;
+    public String connectionModeLabel() { return relay ? "强制服务器中转" : "P2P 优先"; }
 
     public static Profile load(Context context) {
         SharedPreferences p=context.getSharedPreferences("profile",0);
@@ -28,6 +29,7 @@ public class Profile {
         v.ip=p.getString("ip",v.ip); v.mask=p.getString("mask",v.mask);
         v.mac=p.getString("mac",""); v.mtu=p.getInt("mtu",1400);
         v.cipher=p.getString("cipher","AES-CBC"); v.header=p.getBoolean("header",false);
+        v.relay=p.getBoolean("relay",false);
         if(v.mac.isEmpty()) { byte[] b=new byte[6]; new SecureRandom().nextBytes(b); b[0]=(byte)((b[0]&0xfc)|2);
             v.mac=String.format(Locale.ROOT,"%02x:%02x:%02x:%02x:%02x:%02x",b[0],b[1],b[2],b[3],b[4],b[5]); }
         String encrypted=p.getString("secret","");
@@ -52,7 +54,8 @@ public class Profile {
             Base64.encodeToString(c.doFinal(key.getBytes(StandardCharsets.UTF_8)),Base64.NO_WRAP);
         boolean ok=context.getSharedPreferences("profile",0).edit().putString("server",server)
             .putString("community",community).putString("ip",ip).putString("mask",mask).putString("mac",mac)
-            .putString("cipher",cipher).putBoolean("header",header).putInt("mtu",mtu).putString("secret",encrypted).commit();
+            .putString("cipher",cipher).putBoolean("header",header).putBoolean("relay",relay)
+            .putInt("mtu",mtu).putString("secret",encrypted).commit();
         if(!ok) throw new IllegalStateException("无法保存配置");
     }
     public static long ipv4(String value) {
@@ -103,6 +106,6 @@ public class Profile {
         c.devDesc="Android"; c.macAddr=mac; c.mtu=mtu; c.localIP=""; c.holePunchInterval=25;
         c.reResoveSupernodeIP=true; c.localPort=0; c.allowRouting=false; c.dropMuticast=false;
         c.httpTunnel=false; c.traceLevel=2; c.vpnFd=fd; c.gatewayIp=""; c.dnsServer="";
-        c.logPath=log; c.encryptionMode=cipher; c.headerEnc=header; return c;
+        c.logPath=log; c.encryptionMode=cipher; c.headerEnc=header; c.forceRelay=relay; return c;
     }
 }

@@ -22,7 +22,8 @@ import wang.switchy.hin2n.service.N2NService;
 public class MainActivity extends AppCompatActivity {
     private Profile profile;
     private TextInputLayout server,community,key,ip,mask,mtu,mac;
-    private MaterialAutoCompleteTextView cipher;
+    private MaterialAutoCompleteTextView cipher,connectionMode;
+    private static final String[] CONNECTION_MODES={"P2P 优先","强制服务器中转"};
     private MaterialSwitch header;
     private MaterialButton connect,save;
     private TextView status,detail;
@@ -65,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         key=input(fields,"共享密钥",profile.key,true);key.setHelperText("同一社区的设备需使用相同密钥");
         ip=input(fields,"虚拟 IP",profile.ip,false);ip.setHelperText("每台设备使用唯一 IP");
         mask=input(fields,"子网掩码",profile.mask,false);
+        TextInputLayout modeBox=new TextInputLayout(this,null,com.google.android.material.R.attr.textInputOutlinedExposedDropdownMenuStyle);
+        modeBox.setHint("连接模式");connectionMode=new MaterialAutoCompleteTextView(modeBox.getContext());connectionMode.setInputType(InputType.TYPE_NULL);
+        connectionMode.setSimpleItems(CONNECTION_MODES);connectionMode.setText(CONNECTION_MODES[profile.relay?1:0],false);
+        modeBox.addView(connectionMode);modeBox.setHelperText("P2P 优先：直连失败时中转；强制中转：禁用设备直连。切换前请先断开。");fields.addView(modeBox,spacing(18));
         MaterialButton advanced=new MaterialButton(this,null,com.google.android.material.R.attr.materialButtonOutlinedStyle);
         advanced.setText("高级设置 ▾");fields.addView(advanced,spacing(8));
         LinearLayout extras=column();extras.setVisibility(View.GONE);fields.addView(extras);
@@ -113,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
             if(!missing.isEmpty()) throw new IllegalArgumentException("请填写："+String.join("、",missing));
             profile.server=value(server);profile.community=value(community);profile.key=key.getEditText().getText().toString();
             profile.ip=value(ip);profile.mask=value(mask);profile.mac=value(mac);profile.mtu=Integer.parseInt(value(mtu));
+            String mode=connectionMode.getText().toString();
+            if(!java.util.Arrays.asList(CONNECTION_MODES).contains(mode)) throw new IllegalArgumentException("请选择连接模式");
+            profile.relay=CONNECTION_MODES[1].equals(mode);
             profile.cipher=cipher.getText().toString();profile.header=header.isChecked();profile.save(this);return true;
         }catch(Exception e){new MaterialAlertDialogBuilder(this).setTitle("检查网络配置").setMessage(e instanceof NumberFormatException?"MTU 请输入数字":e.getMessage()).setPositiveButton("知道了",null).show();return false;}
     }

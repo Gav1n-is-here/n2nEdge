@@ -13,6 +13,8 @@ Windows 客户端使用 WPF 实现 Material 风格界面，内置从源码编译
 
 支持 AES-CBC、Twofish、ChaCha20、Speck-CTR，支持 MTU、MAC、头部加密、强制 UDP 中转和子网组播。没有默认路由或系统代理设置。Windows 3.0 上游不支持 TCP 中转。
 
+连接配置中的「连接模式」复用现有圆角下拉框，可选「P2P 优先」（默认，直连失败时中转）或「强制服务器中转」（禁用直连，使用 `-S1` UDP 中转）。先断开再切换并重新连接；沿用配置文件中的 `Relay` 字段，保留旧版选择。连接状态显示配置模式，并非实时路径检测。强制中转时核心拒绝直连收包，且不使用已知对端或服务器离线时的广播直连分支。
+
 密钥用 Windows DPAPI 加密保存到 `%LOCALAPPDATA%\N2nEdge\profile.xml`，通过子进程环境变量传递，不放在命令行。退出时会停止 edge；Windows Job Object 防止 UI 异常退出后留下连接进程。TAP 驱动及已保存的网卡 IP 配置不随应用关闭而卸载。
 
 适用于 Windows 10/11 x64，使用系统 .NET Framework 4.8。应用 EXE 尚未签名；内置的 TAP 9.24.7 安装程序已核验 OpenVPN Inc. 的有效 Authenticode 签名。

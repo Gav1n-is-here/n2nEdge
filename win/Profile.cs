@@ -7,6 +7,7 @@ using System.Linq;
 public class Profile {
  public string Server="",Community="",Secret="",Ip="",Mask="",Mac="",Adapter="",Cipher="AES-CBC";
  public int Mtu=1400; public bool Header=false,Relay=false,Multicast=false;
+ public string ConnectionModeLabel(){return Relay?"强制服务器中转":"P2P 优先";}
  public static uint Address(string s) { if(!Regex.IsMatch(s,@"^(0|[1-9]\d{0,2})(\.(0|[1-9]\d{0,2})){3}$"))throw new Exception("请输入有效 IPv4 地址");uint v=0;foreach(string b in s.Split('.')){uint n=uint.Parse(b);if(n>255)throw new Exception("IPv4 每段不能超过 255");v=(v<<8)|n;}return v; }
  public int Prefix(){uint m=Address(Mask),v=~m;if((v&(v+1))!=0)throw new Exception("子网掩码必须连续");int n=0;while(m!=0){n+=(int)(m&1);m>>=1;}if(n<8||n>30)throw new Exception("子网掩码需介于 /8 和 /30");return n;}
  public void Validate(string key){

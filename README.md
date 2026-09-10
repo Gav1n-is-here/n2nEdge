@@ -37,6 +37,15 @@ Windows 只需复制对应目录下的 **一个 EXE**，不需要附带核心 EX
 
 保存的配置位于当前电脑的 `%LOCALAPPDATA%\N2nEdge`，不会随 EXE 自动搬走。移动 EXE 到同一电脑的另一目录仍能读取配置；复制到另一电脑首次为未配置状态。密钥通过 DPAPI 绑定 Windows 用户，不应直接拷贝加密配置跨电脑使用。
 
+## 连接模式
+
+Windows 和 Android 的网络配置中均可选择「P2P 优先」或「强制服务器中转」，使用各平台现有的下拉框样式。
+
+- **P2P 优先**（默认）：通过 supernode 发现设备并尝试直连，直连未建立或失效时通过服务器中转。仍需配置 supernode。
+- **强制服务器中转**：禁用设备直连，子网数据经 supernode 的 UDP 通道转发；服务器不可达时不会转为直连。
+
+切换前先断开连接，选择模式后重新连接。模式随配置保存，连接状态显示所选模式，不代表已确认当前设备之间的实际路径。旧 Android 配置默认 P2P 优先，旧 Windows 配置保留原有中转选择。
+
 ## 编译
 
 - Android：`android\build.ps1`，在 `android/app/build/outputs/apk/debug` 生成四种 ABI 和通用 APK。SDK 路径填在 `android/local.properties`，详细环境见 [Android 说明](android/README.md)。

@@ -23,6 +23,7 @@ public class Engine : IDisposable {
  if(p.Mac!="")args+=" -m "+Q(p.Mac);if(p.Header)args+=" -H";if(p.Relay)args+=" -S1";if(p.Multicast)args+=" -E";
  var info=new ProcessStartInfo(Extract("edge.exe"),args){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true,StandardOutputEncoding=Encoding.Default,StandardErrorEncoding=Encoding.Default};info.EnvironmentVariables["N2N_KEY"]=secret;
  process=new Process{StartInfo=info};process.OutputDataReceived+=(s,e)=>{if(e.Data!=null)Log(e.Data.Replace(key,"[密钥]"));};process.ErrorDataReceived+=(s,e)=>{if(e.Data!=null)Log(e.Data.Replace(key,"[密钥]"));};
+ Log("连接模式："+p.ConnectionModeLabel());
  try{job=NewJob();process.Start();if(!AssignProcessToJobObject(job,process.Handle))throw new Exception("无法建立连接进程退出保护");process.BeginOutputReadLine();process.BeginErrorReadLine();}catch{Dispose();throw;}
  }
  public async Task<bool> Connected(){if(!Running)return false;var times=await Query("r time timestamps");if(!times.Any(r=>r.ContainsKey("last_super")&&Convert.ToInt64(r["last_super"])>0))return false;var rows=await Query("r status supernodes");return rows.Any(r=>r.ContainsKey("current")&&Convert.ToInt32(r["current"])==1&&true);}
